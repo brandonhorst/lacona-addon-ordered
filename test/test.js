@@ -1,6 +1,5 @@
 var chai = require('chai');
 var stream = require('stream');
-var find = require('lodash.find');
 
 var lacona = require('lacona');
 var Stateful = require('lacona-addon-stateful');

@@ -1,6 +1,6 @@
 {
   "name": "lacona-addon-ordered",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Add an ordering system to the lacona parser",
   "main": "lib/ordered.js",
   "scripts": {
@@ -37,12 +37,12 @@
     "jshint": "^2.5.11",
     "lacona": "^0.11.0",
     "lacona-addon-stateful": "^0.4.0",
+    "lacona-util-fulltext": "0.0.1",
     "lacona-util-jshint": "^0.2.0",
     "mocha": "^2.1.0"
   },
   "dependencies": {
     "inherits": "^2.0.1",
-    "lacona-util-fulltext": "0.0.1",
     "lodash.clone": "^2.4.1",
     "lodash.findindex": "^2.4.1",
     "lodash.sortedindex": "^2.4.1"
