@@ -1,5 +1,7 @@
 lacona-addon-ordered
 ====================
+[![Travis](https://img.shields.io/travis/lacona/lacona-addon-ordered.svg?style=flat)](https://travis-ci.org/lacona/lacona-addon-ordered)
+[![Coverage Status](https://img.shields.io/coveralls/lacona/lacona-addon-ordered.svg?style=flat)](https://coveralls.io/r/lacona/lacona-addon-ordered)
 
 `lacona-addon-ordered` provides all of the same benefits of `lacona-addon-stateful` but also introduces the concept of ordering.
 
