@@ -69,10 +69,10 @@ describe('lacona-addon-ordered', function () {
       expect(data[1].data.suggestion.words[0].string).to.equal('teaseaa');
       expect(data[2].data.suggestion.words[0].string).to.equal('testbb');
 
-      //sortIndex is specified
-      expect(data[0].sortIndex).to.equal(0);
-      expect(data[1].sortIndex).to.equal(1);
-      expect(data[2].sortIndex).to.equal(1);
+      //id is specified
+      expect(data[0].id).to.equal(0);
+      expect(data[1].id).to.equal(1);
+      expect(data[2].id).to.equal(1);
       done();
     }
 
@@ -97,12 +97,12 @@ describe('lacona-addon-ordered', function () {
       expect(data[4].data.suggestion.words[0].string).to.equal('testbb');
       expect(data[5].event).to.equal('delete');
 
-      //sortIndex is specified
-      expect(data[0].sortIndex).to.equal(0);
-      expect(data[1].sortIndex).to.equal(1);
-      expect(data[2].sortIndex).to.equal(1);
-      expect(data[3].sortIndex).to.equal(0);
-      expect(data[4].sortIndex).to.equal(1);
+      //id is specified
+      expect(data[0].id).to.equal(0);
+      expect(data[1].id).to.equal(1);
+      expect(data[2].id).to.equal(1);
+      expect(data[3].id).to.equal(0);
+      expect(data[4].id).to.equal(1);
 
       done();
     }
