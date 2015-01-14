@@ -3,24 +3,11 @@ var stream = require('stream');
 
 var lacona = require('lacona');
 var Stateful = require('lacona-addon-stateful');
-var Ordered = require('..');
 var fulltext = require('lacona-util-fulltext');
 
-var expect = chai.expect;
+var Ordered = require('..');
 
-var grammar = {
-  phrases: [{
-    name: 'test',
-    root: {
-      type: 'choice',
-      children: [
-        'testb',
-        'teaseaa',
-        'testbb'
-      ]
-    }
-  }]
-};
+var expect = chai.expect;
 
 function toStream(strings) {
   var newStream = new stream.Readable({objectMode: true});
@@ -52,7 +39,19 @@ describe('lacona-addon-ordered', function () {
   var parser, stateful, ordered;
 
   beforeEach(function () {
-    parser = new lacona.Parser({sentences: ['test']}).understand(grammar);
+    var test = lacona.createPhrase({
+      name: 'test/test',
+      describe: function () {
+        return lacona.choice({children: [
+          lacona.literal({text: 'testb'}),
+          lacona.literal({text: 'teaseaa'}),
+          lacona.literal({text: 'testbb'})
+        ]});
+      }
+    });
+
+    parser = new lacona.Parser();
+    parser.sentences = [test()];
     stateful = new Stateful({serializer: fulltext});
 
     ordered = new Ordered({comparator: function (option) {
@@ -113,36 +112,5 @@ describe('lacona-addon-ordered', function () {
     .pipe(ordered)
     .pipe(toArray(callback));
   });
-
-  // it('does not emit multiple events if parsed before handling' , function (done) {
-  //   function callback(data) {
-  //     expect(data).to.have.length(2);
-  //     expect(data[0].event).to.equal('insert');
-  //     expect(data[1].event).to.equal('update');
-  //     expect(data[0].data.suggestion.words[0].string).to.equal('test');
-  //     expect(data[1].data.suggestion.words[0].string).to.equal('test');
-  //     done();
-  //   }
-  //
-  //   toStream(['t', 'te'])
-  //   .pipe(parser)
-  //   .pipe(stateful)
-  //   .pipe(toArray(callback));
-  // });
-  //
-  // it('does not emit events if none are valid' , function (done) {
-  //   function callback(data) {
-  //     expect(data).to.have.length(2);
-  //     expect(data[0].event).to.equal('insert');
-  //     expect(data[1].event).to.equal('delete');
-  //     expect(data[0].data.suggestion.words[0].string).to.equal('test');
-  //     done();
-  //   }
-  //
-  //   toStream(['t', 'tx'])
-  //   .pipe(parser)
-  //   .pipe(stateful)
-  //   .pipe(toArray(callback));
-  // });
 
 });

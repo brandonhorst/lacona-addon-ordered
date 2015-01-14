@@ -35,16 +35,14 @@
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.5",
     "jshint": "^2.5.11",
-    "lacona": "^0.12.0",
-    "lacona-addon-stateful": "^0.6.0",
+    "lacona": "^0.14.2",
+    "lacona-addon-stateful": "^0.6.1",
     "lacona-util-fulltext": "0.0.1",
     "lacona-util-jshint": "^0.2.0",
     "mocha": "^2.1.0"
   },
   "dependencies": {
     "inherits": "^2.0.1",
-    "lodash.clone": "^2.4.1",
-    "lodash.findindex": "^2.4.1",
-    "lodash.sortedindex": "^2.4.1"
+    "lodash": "^2.4.1"
   }
 }
