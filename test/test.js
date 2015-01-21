@@ -52,10 +52,10 @@ describe('lacona-addon-ordered', function () {
 
     parser = new lacona.Parser();
     parser.sentences = [test()];
-    stateful = new Stateful({serializer: fulltext});
+    stateful = new Stateful({serializer: fulltext.all});
 
     ordered = new Ordered({comparator: function (option) {
-      return fulltext(option).length;
+      return fulltext.all(option).length;
     }});
   });
 
@@ -64,9 +64,9 @@ describe('lacona-addon-ordered', function () {
       expect(data).to.have.length(3);
 
       //actual order is not changed
-      expect(data[0].data.suggestion.words[0].string).to.equal('testb');
-      expect(data[1].data.suggestion.words[0].string).to.equal('teaseaa');
-      expect(data[2].data.suggestion.words[0].string).to.equal('testbb');
+      expect(fulltext.suggestion(data[0].data)).to.equal('testb');
+      expect(fulltext.suggestion(data[1].data)).to.equal('teaseaa');
+      expect(fulltext.suggestion(data[2].data)).to.equal('testbb');
 
       //id is specified
       expect(data[0].id).to.equal(0);
@@ -87,13 +87,13 @@ describe('lacona-addon-ordered', function () {
       expect(data).to.have.length(6);
 
       //actual order is not changed
-      expect(data[0].data.suggestion.words[0].string).to.equal('testb');
-      expect(data[1].data.suggestion.words[0].string).to.equal('teaseaa');
-      expect(data[2].data.suggestion.words[0].string).to.equal('testbb');
+      expect(fulltext.suggestion(data[0].data)).to.equal('testb');
+      expect(fulltext.suggestion(data[1].data)).to.equal('teaseaa');
+      expect(fulltext.suggestion(data[2].data)).to.equal('testbb');
       expect(data[3].event).to.equal('update');
-      expect(data[3].data.suggestion.words[0].string).to.equal('testb');
+      expect(fulltext.suggestion(data[3].data)).to.equal('testb');
       expect(data[4].event).to.equal('update');
-      expect(data[4].data.suggestion.words[0].string).to.equal('testbb');
+      expect(fulltext.suggestion(data[4].data)).to.equal('testbb');
       expect(data[5].event).to.equal('delete');
 
       //id is specified
