@@ -61,19 +61,13 @@ describe('lacona-addon-ordered', function () {
       expect(data).to.have.length(3);
 
       expect(data[0].event).to.equal('insert');
-      expect(data[0].id).to.equal(0);
       expect(data[0].sortIndex).to.equal(0);
-      expect(fulltext.suggestion(data[0].data)).to.equal('bb');
-
-      expect(data[1].event).to.equal('insert');
-      expect(data[1].id).to.equal(1);
+      expect(fulltext.all(data[0].data)).to.equal('bb');
       expect(data[1].sortIndex).to.equal(0);
-      expect(fulltext.suggestion(data[1].data)).to.equal('aa');
-
+      expect(fulltext.all(data[1].data)).to.equal('aa');
       expect(data[2].event).to.equal('insert');
-      expect(data[2].id).to.equal(2);
       expect(data[2].sortIndex).to.equal(2);
-      expect(fulltext.suggestion(data[2].data)).to.equal('bc');
+      expect(fulltext.all(data[2].data)).to.equal('bc');
 
       done();
     }
@@ -89,25 +83,28 @@ describe('lacona-addon-ordered', function () {
     function callback(data) {
       expect(data).to.have.length(8);
 
-      //actual order is not changed
+      expect(data[0].event).to.equal('insert');
+      expect(data[0].sortIndex).to.equal(0);
+      expect(fulltext.all(data[0].data)).to.equal('bb');
+      expect(data[1].event).to.equal('insert');
+      expect(data[1].sortIndex).to.equal(0);
+      expect(fulltext.all(data[1].data)).to.equal('aa');
+      expect(data[2].event).to.equal('insert');
+      expect(data[2].sortIndex).to.equal(2);
+      expect(fulltext.all(data[2].data)).to.equal('bc');
+
       expect(data[3].event).to.equal('delete');
-      expect(data[3].id).to.equal(0);
-
+      expect(data[3].id).to.equal(data[0].id);
       expect(data[4].event).to.equal('insert');
-      expect(data[4].id).to.equal(3);
       expect(data[4].sortIndex).to.equal(1);
-      expect(fulltext.suggestion(data[4].data)).to.equal('bb');
-
+      expect(fulltext.all(data[4].data)).to.equal('bb');
       expect(data[5].event).to.equal('delete');
-      expect(data[5].id).to.equal(2);
-
+      expect(data[5].id).to.equal(data[2].id);
       expect(data[6].event).to.equal('insert');
-      expect(data[6].id).to.equal(4);
       expect(data[6].sortIndex).to.equal(2);
-      expect(fulltext.suggestion(data[6].data)).to.equal('bc');
-
+      expect(fulltext.all(data[6].data)).to.equal('bc');
       expect(data[7].event).to.equal('delete');
-      expect(data[7].id).to.equal(1);
+      expect(data[7].id).to.equal(data[1].id);
 
       done();
     }
