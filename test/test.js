@@ -1,7 +1,8 @@
 var chai = require('chai');
-var stream = require('stream');
+var es = require('event-stream');
 
 var lacona = require('lacona');
+var phrase = require('lacona-phrase');
 var Stateful = require('lacona-addon-stateful');
 var fulltext = require('lacona-util-fulltext');
 
@@ -9,55 +10,28 @@ var Ordered = require('..');
 
 var expect = chai.expect;
 
-function toStream(strings) {
-  var newStream = new stream.Readable({objectMode: true});
-
-  strings.forEach(function (string) {
-    newStream.push(string);
-  });
-  newStream.push(null);
-
-  return newStream;
-}
-
-function toArray(done) {
-  var newStream = new stream.Writable({objectMode: true});
-  var list = [];
-  newStream.write = function(obj) {
-    list.push(obj);
-  };
-
-  newStream.end = function() {
-    done(list);
-  };
-
-  return newStream;
-}
-
-
 describe('lacona-addon-ordered', function () {
   var parser, stateful, ordered;
 
   beforeEach(function () {
-    var test = lacona.createPhrase({
-      name: 'test/test',
+    var Test = phrase.createPhrase({
       describe: function () {
-        return lacona.choice({children: [
-          lacona.literal({text: 'bb'}),
-          lacona.literal({text: 'aa'}),
-          lacona.literal({text: 'bc'})
-        ]});
+        return phrase.choice(null,
+          phrase.literal({text: 'bb'}),
+          phrase.literal({text: 'aa'}),
+          phrase.literal({text: 'bc'})
+        );
       }
     });
 
     parser = new lacona.Parser();
-    parser.sentences = [test()];
+    parser.sentences = [phrase.createElement(Test)];
     stateful = new Stateful({serializer: fulltext.all});
     ordered = new Ordered({serializer: fulltext.all});
   });
 
   it('maintains order according to the given predicate' , function (done) {
-    function callback(data) {
+    function callback(err, data) {
       expect(data).to.have.length(3);
 
       expect(data[0].event).to.equal('insert');
@@ -72,15 +46,15 @@ describe('lacona-addon-ordered', function () {
       done();
     }
 
-    toStream([''])
+    es.readArray([''])
       .pipe(parser)
       .pipe(stateful)
       .pipe(ordered)
-      .pipe(toArray(callback));
+      .pipe(es.writeArray(callback));
   });
 
   it('maintains order even with deletes' , function (done) {
-    function callback(data) {
+    function callback(err, data) {
       expect(data).to.have.length(8);
 
       expect(data[0].event).to.equal('insert');
@@ -109,11 +83,11 @@ describe('lacona-addon-ordered', function () {
       done();
     }
 
-    toStream(['', 'b'])
-    .pipe(parser)
-    .pipe(stateful)
-    .pipe(ordered)
-    .pipe(toArray(callback));
+    es.readArray(['', 'b'])
+      .pipe(parser)
+      .pipe(stateful)
+      .pipe(ordered)
+      .pipe(es.writeArray(callback));
   });
 
 });
