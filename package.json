@@ -1,6 +1,6 @@
 {
   "name": "lacona-addon-ordered",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Add an ordering system to the lacona parser",
   "main": "lib/ordered.js",
   "scripts": {
